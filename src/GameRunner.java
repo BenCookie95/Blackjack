@@ -16,13 +16,32 @@ public class GameRunner {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Deck theDeck = new Deck(1, true);
+        Chips myChips = new Chips(100);
         
         Player me = new Player("Ben");
         Player dealer = new Player("Dealer");
         boolean continuePlay = true;
-        
+        String betAmount = null;
+        //loop to keep the game running
         while(continuePlay){
-        
+            System.out.println("You have " + myChips.getNumChips() + " chips.");
+            
+           
+                //check if you have more than 0 chips
+                if (myChips.getNumChips() > 0) {
+                    
+                    
+                    System.out.println("How many chips do you to bet?");
+                    betAmount = sc.next();
+                    myChips.betChips(betAmount, myChips.getNumChips());
+                    
+
+                }else{
+                    System.out.println("You have run out of chips. Game Over");
+                    System.exit(1);
+                }
+            
+            
             me.addCard(theDeck.dealNextCard());
             dealer.addCard(theDeck.dealNextCard());
             me.addCard(theDeck.dealNextCard());
@@ -83,10 +102,22 @@ public class GameRunner {
             int mySum = me.getHandSum();
             int dealerSum = dealer.getHandSum();
 
-            if(mySum > dealerSum && mySum <= 21 || dealerSum > 21){
+            if(mySum > dealerSum && mySum <= 21 || dealerSum > 21 && mySum <= 21 ){
+                System.out.println();
+                System.out.println("Your Total is " + me.getHandSum());
+                myChips.winChips(betAmount);
                 System.out.println("You win");
                 
+            }else if(mySum == dealerSum && mySum <= 21){
+                System.out.println();
+                System.out.println("Your Total is " + me.getHandSum());
+                System.out.println("The Dealers Total is " + dealer.getHandSum());
+                myChips.drawChips(betAmount);
+                System.out.println("Draw");
             }else{
+                System.out.println();
+                System.out.println("The Dealers Total is " + dealer.getHandSum());
+                myChips.loseChips(betAmount);
                 System.out.println("Dealer wins");
             }
             me.emptyHand();
