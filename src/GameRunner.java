@@ -31,6 +31,8 @@ public class GameRunner {
             //print intial hands
             System.out.println("cards are dealt\n");
             me.printHand(true);
+            System.out.println();
+            System.out.println("Your Total is " + me.getHandSum());
             dealer.printHand(false);
             System.out.println("\n");
 
@@ -52,6 +54,8 @@ public class GameRunner {
                         //add next card in the deck and store whether they are busted
                         meDone = !me.addCard(theDeck.dealNextCard());
                         me.printHand(true);
+                        System.out.println();
+                        System.out.println("Your Total is " + me.getHandSum());
                     }else{
                         meDone = true;
                     }
